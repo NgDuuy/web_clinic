@@ -38,12 +38,14 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: true
       },
-      keyRole: {
+      roleId: {
         type: Sequelize.STRING
       },
-      typeRole: {
-        type: Sequelize.STRING,
-        allowNull: false
+      positionId: {
+        type: Sequelize.STRING
+      },
+      image: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

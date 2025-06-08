@@ -1,9 +1,11 @@
 import express from 'express';
+import homeController from '../controllers/homeController.js';
 let router = express.Router();
 let introController = (app) => {
-    return app.get('/', (req, res) => {
-        return res.send('hello world');
-    });
+    router.get('/', homeController.getHomePage);
+    router.get('about', homeController.getAboutPage);
+    router.get('/crud', homeController.getCRUD);
+    router.post(('/post-crud'), homeController.postCRUD);
     return app.use('/', router);
 }
 module.exports = introController
