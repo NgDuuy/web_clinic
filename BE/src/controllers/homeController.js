@@ -1,9 +1,8 @@
-import { raw } from 'body-parser';
 import db from '../models/index.js';
 import CRUDServices from "../services/CRUDservices.js";
 let getHomePage = async (req, res) => {
     try {
-        let data = await db.User.findAll();
+        let data = await db.Users.findAll();
         return res.render('homePage.ejs', {
             data: JSON.stringify(data)
         })
@@ -19,9 +18,18 @@ let getCRUD = (req, res) => {
     return res.render('crud.ejs')
 }
 let postCRUD = async (req, res) => {
-    let message = await CRUDServices.createNewUser(req.body);
-    console.log(message);
-    return res.send('post crud from server');
+    try {
+        let message = await CRUDServices.createNewUser(req.body);
+        console.log(message);
+        let data = await CRUDServices.getAllUsers();
+        return res.render('displayCRUD.ejs', {
+            dataTable: data
+        })
+    }
+    catch (error) {
+        console.log("Error: ", error);
+        return res.status(500).send("Error in postCRUD")
+    }
 }
 let displayCRUD = async (req, res) => {
     let data = await CRUDServices.getAllUsers();
@@ -54,6 +62,17 @@ let putCRUD = async (req, res) => {
         dataTable: allUser
     })
 }
+let deleteCRUD = async (req, res) => {
+    let id = req.query.id;
+    if (id) {
+        await CRUDServices.deleteUserById(id);
+        let data = await CRUDServices.getAllUsers();
+        return res.send("Delete success")
+    }
+    else {
+        return res.send('User not found')
+    }
+}
 module.exports = {
     getHomePage: getHomePage,
     getAboutPage: getAboutPage,
@@ -61,6 +80,7 @@ module.exports = {
     postCRUD: postCRUD,
     displayCRUD: displayCRUD,
     getEditCRUD: getEditCRUD,
-    putCRUD: putCRUD
+    putCRUD: putCRUD,
+    deleteCRUD: deleteCRUD
 
 }

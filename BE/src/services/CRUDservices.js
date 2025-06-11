@@ -1,9 +1,10 @@
 
 import bcrypt from 'bcrypt';
 import db from '../models/index';
+import { where } from 'sequelize';
 const salt = bcrypt.genSaltSync(10);
 
-let createNewUser = async (data) => {
+let createNewUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password);
@@ -21,6 +22,7 @@ let createNewUser = async (data) => {
             resolve('create a new user succeed!');
         }
         catch (e) {
+            console.error("❌ Error in createNewUser:", e);
             reject(e);
         }
     })
@@ -90,10 +92,27 @@ let updateUserData = (data) => {
         }
     })
 }
+let deleteUserById = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.Users.findOne({
+                where: { id: userId }
+            })
+            if (user) {
+                await user.destroy();
+            }
+            resolve();
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     createNewUser: createNewUser,
     getAllUsers: getAllUsers,
     getUserInforById: getUserInforById,
-    updateUserData: updateUserData
+    updateUserData: updateUserData,
+    deleteUserById: deleteUserById
 
 }
