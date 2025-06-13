@@ -5,10 +5,17 @@
 
     .login-container {
         width: 400px;
-        height: 100%;
-        margin: 0 auto;
+        // height: 100%;
+        // margin: 0 auto;
         border-radius: 10px;
         background-color: white;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 500px;
 
         .login-content {
             padding: 10px;
@@ -20,7 +27,7 @@
                 font-size: 25px;
             }
 
-            .login-input {
+            .form-control {
                 margin: 7px;
             }
 
@@ -38,6 +45,17 @@
 
             .forgot-password {
                 font-size: 12px;
+            }
+
+            .Custom-input-password {
+                i {
+                    position: absolute;
+                    right: 15px;
+                    top: 170px;
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+
             }
 
             .social-login {
