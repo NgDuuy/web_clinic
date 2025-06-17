@@ -3,40 +3,69 @@ import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 // import * as actions from "../store/actions";
 import * as actions from "../../store/actions";
-import { KeyCodeUtils, LanguageUtils } from "../../utils";
 
 import userIcon from '../../../src/assets/images/user.svg';
 import passIcon from '../../../src/assets/images/pass.svg';
 import './Login.scss';
-import { FormattedMessage } from 'react-intl';
-
 import adminService from '../../services/adminService';
-
-
+import { handleLoginApi } from '../../services/userService';
+import { reject } from 'lodash';
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: "",
             password: '',
-            isShowPassword: false
+            isShowPassword: false,
+            errMessage: ''
         }
     }
     handleOnChangeUsername = (event) => {
         this.setState({
             username: event.target.value
         })
-        console.log(event.target.value)
     }
     handleOnChangePassword = (event) => {
         this.setState({
             password: event.target.value
         })
-        console.log(event)
     }
-    handleLogin = () => {
-        console.log('Username: ', this.state.username, 'Password: ', this.state.password);
-        console.log('AllState: ', this.state);
+    handleLogin = async () => {
+        this.setState({
+            errMessage: ''
+        })
+        console.log('in function handleLogin')
+        try {
+            let response = await handleLoginApi(this.state.username, this.state.password);
+            let data = response.data
+            if (data && data.errCode !== 0) {
+                console.log('in data && data.errCode !==0')
+                this.setState({
+                    errMessage: data.message
+                })
+            }
+            console.log('errCode: ', data)
+            if (data && data.errCode === 0) {
+                console.log('login succeed')
+                this.props.userLoginSucceed(data.user);
+                // this.props.navigate('/system/user-manage');
+            }
+
+        }
+        catch (error) {
+            if (error.response) {
+                if (error.response.data) {
+                    this.setState({
+                        errMessage: error.response.data.message
+                    })
+                }
+            }
+            console.log('Error', error.response);
+            // this.setState({
+            //     errMessage: e.message
+            // })
+        }
+
     }
     handleShowHidePassword = () => {
         this.setState({
@@ -76,6 +105,9 @@ class Login extends Component {
                                 </span>
                             </div>
                         </div>
+                        <div className='col-12' style={{ color: ' red' }}>
+                            {this.state.errMessage}
+                        </div>
                         <div className='col-12 '>
                             <button className='btn-login'
                                 onClick={() => this.handleLogin()}
@@ -107,8 +139,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        // userLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginSucceed: (userInfor) => dispatch(actions.userLoginSucceed(userInfor))
     };
 };
 
