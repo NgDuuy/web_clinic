@@ -6,3 +6,29 @@ npm init
 npx sequelize-cli init
 npm install --save-dev @babel/core @babel/node @babel/present-env nodemon
 npm install body-parser dotenv express ejs
+dùng {
+            if (userId && userId !== "All") {
+                users = await db.Users.findOne({
+                    where: { id: userId },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                    raw: true
+                })
+            }
+} => để ẩn đi các trường không muốn hiện cho người dùng
+dùng {
+            if (userId && userId !== "All") {
+                users = await db.Users.findOne({
+                    where: { id: userId },
+                    attributes:  ['password'],
+                    raw: true
+                })
+} => để lấy ra các trường mong muốn
+
+setup {
+        "query": {
+      "raw": true
+    },
+    "timezone": "+07:00"
+} => setup trong config.json giúp hiển thị bản ghi từ database nhìn đẹp hơn

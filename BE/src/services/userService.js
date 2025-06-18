@@ -1,3 +1,4 @@
+import { raw } from 'body-parser';
 import db from '../models/index'
 import bcrypt from 'bcrypt';
 let handleUserLogin = (email, password) => {
@@ -60,7 +61,42 @@ let checkEmail = (userEmail) => {
         }
     })
 }
+let getAllUsers = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("In function getAllUsers");
+            let users = '';
+            if (userId === "All") {
+                users = await db.Users.findAll({
+                    attributes: {
+                        exclude: ['password']
+                    },
+                })
+            }
+            if (userId && userId !== "All") {
+                users = await db.Users.findOne({
+                    where: { id: userId },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                })
+            }
+            resolve(users);
+            // if (users) {
+            //     resolve(true);
+            // }
+            // else {
+            //     resolve(false);
+            // }
+        }
+        catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    })
+}
 module.exports = {
     handleUserLogin: handleUserLogin,
-    checkEmail: checkEmail
+    checkEmail: checkEmail,
+    getAllUsers: getAllUsers
 }
