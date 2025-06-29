@@ -1,0 +1,144 @@
+.specialty-body {
+
+    /* Previous bên trái */
+    .slick-prev {
+        position: absolute;
+        left: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        height: 48px !important;
+        width: 44px !important;
+        cursor: pointer !important;
+        pointer-events: auto;
+
+        &:hover {
+            background: #f5f5f5 !important;
+        }
+    }
+
+    /* Next bên phải */
+    .slick-next {
+        position: absolute;
+        right: -15px;
+        top: 50%;
+        transform: translateY(-39%);
+        z-index: 10;
+        height: 48px !important;
+        width: 44px !important;
+        cursor: pointer !important;
+        pointer-events: auto;
+
+        &:hover {
+            background: #f5f5f5 !important;
+        }
+    }
+
+}
+
+.section-share {
+
+    &.section-specialty {
+        background: #f5f5f5;
+    }
+
+    &.section-medical-facility {
+        background: #f5f5f5;
+    }
+
+    &.section-outstanding-doctor {
+        background: #f5f5f5;
+    }
+
+    .section-body {
+        .section-customize {
+            .bg-image {
+                height: 150px;
+                width: 278px;
+                background-color: #eee;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+
+                &.section-specialty {
+                    background: url('../../assets/specialty/100851may-cong-huong-tu-vietfile.png');
+                }
+
+                &.section-medical-facility {
+                    background: url('../../assets/medicalfacility/083122lo-go-viet-duc.jpg');
+                }
+
+                &.section-outstanding-doctor {
+                    background: url('../../assets/OutstandingDoctor/103848anh-dai-dien-bs.jpg');
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    object-fit: contain;
+                }
+
+                &.section-handbook {
+                    background-image: url('../../assets/HandBook/164513-kham-chua-huyet-ap-thap-o-dau-ha-noi.png');
+                }
+
+            }
+        }
+
+    }
+}
+
+.section-share {
+    height: 330px;
+
+    border: 1px solid red;
+
+    .section-container {
+        margin: 0 180px;
+        display: flex;
+        flex-direction: column;
+
+        .section-header {
+            height: 60px;
+            margin-bottom: 30px;
+            padding-top: 30px;
+
+            .title-section {
+                font-size: 22px;
+                font-weight: 600;
+            }
+
+            .btn-section {
+                float: right;
+                padding: 10px 15px;
+                border: none;
+                outline: none;
+                background: #ebebeb;
+                color: black;
+                cursor: pointer;
+                text-transform: uppercase;
+
+                &:hover {
+                    color: #ffff;
+                    background: #f7d800;
+                }
+            }
+        }
+
+
+    }
+}
+
+.section-outstanding-doctor {
+    .outer-background {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .section-customize {
+        padding: 5px;
+
+        .customize-border {
+            border: 1px solid red;
+        }
+    }
+}

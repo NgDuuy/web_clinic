@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { getAllUsers, createNewUser } from '../../services/userService';
+import { getAllUsers, createNewUser, editUserInfo, deleteUser } from '../../services/userService';
 import ModalUser from './ModalUser'
-
+import ModalEditUser from './ModalEditUser';
+import { emitter } from '../../utils/emitter';
+import { use } from 'react';
+import { faHourglassEmpty } from '@fortawesome/free-solid-svg-icons';
+import { getTextOfJSDocComment } from 'typescript';
 class UserManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             arrayUser: [],
-            isOpenModalUser: false
+            isOpenModalUser: false,
+            isOpenModalEditUser: false,
+            userEdit: {}
         }
     }
 
@@ -40,6 +46,11 @@ class UserManage extends Component {
             isOpenModalUser: !this.state.isOpenModalUser
         })
     }
+    toggleModalEditUser = () => {
+        this.setState({
+            isOpenModalEditUser: !this.state.isOpenModalEditUser
+        })
+    }
     createNewUser = async (data) => {
         try {
             let response = await createNewUser(data);
@@ -50,7 +61,46 @@ class UserManage extends Component {
                 this.setState({
                     isOpenModalUser: false
                 })
+                // Đây là cách truyền datadata
+                // emitter.emit('EVENT_CLEAR_MODAL_DATA', { 'id': 'your id' })
+                emitter.emit('EVENT_CLEAR_MODAL_DATA')
             }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+    handleDeleteUser = async (userData) => {
+        try {
+            let response = await deleteUser(userData.id)
+            await this.getAllUserFromReact()
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    handleEditUserInfo = async (userData) => {
+        try {
+            this.setState({
+                isOpenModalEditUser: true,
+                userEdit: userData
+            })
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+    editUserInfo = async (user) => {
+        try {
+            let res = await editUserInfo(user);
+            this.setState({
+                isOpenModalEditUser: false,
+            })
+            await this.getAllUserFromReact();
+            // if (res && res.errCode === 0) {
+            // } else {
+            //     alert(res.errMessage)
+            // }
         }
         catch (e) {
             console.log(e);
@@ -67,6 +117,16 @@ class UserManage extends Component {
                     test={'ads'}
                     createNewUser={this.createNewUser}
                 />
+                {this.state.isOpenModalEditUser &&
+                    <ModalEditUser
+                        isOpen={this.state.isOpenModalEditUser}
+                        toggleModalEditUser={this.toggleModalEditUser}
+                        editUserInfo={this.editUserInfo}
+                        currentUser={this.state.userEdit}
+                    />
+                }
+
+
                 <div className='title text-center'>
                     Manage user
                 </div>
@@ -95,8 +155,8 @@ class UserManage extends Component {
                                         <td>{item.lastName}</td>
                                         <td>{item.address}</td>
                                         <td>
-                                            <button className='btn-edit'><i className='fas fa-pencil-alt'></i></button>
-                                            <button className='btn-delete'><i className='fas fa-trash'></i></button>
+                                            <button className='btn-edit' onClick={(e) => this.handleEditUserInfo(item)}><i className='fas fa-pencil-alt'></i></button>
+                                            <button className='btn-delete' onClick={(e) => this.handleDeleteUser(item)}><i className='fas fa-trash'></i></button>
                                         </td>
                                     </tr>
                                 )

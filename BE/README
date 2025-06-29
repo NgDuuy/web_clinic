@@ -32,3 +32,23 @@ setup {
     },
     "timezone": "+07:00"
 } => setup trong config.json giúp hiển thị bản ghi từ database nhìn đẹp hơn
+
+fire event : child -> parent (props)
+parent -> child (ref)
+emitter(event): dùng emitter có thể giải quyết được 2 sự kiện truyền dữ liệu từ con lên cha và ngược lại 
+send message
+client->receive
+
+
+cấu hình react dux cho FE 
+redux-thunk redux-saga
+
+redux // react
+vào component -> call api(list user)
+gọi redux -> save list user vào redux
+component -> redux (list user)
+
+cấu hình FE trong store có các action và reducers
+action thì được chia nhiều loại có thể dùng 
+định nghĩ từ khóa trong hàm appTypes -> định nghĩ hàm hàm trong appAction -> chạy sang reducer để map các thông tin 
+-> fire event
