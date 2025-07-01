@@ -97,10 +97,6 @@ class UserManage extends Component {
                 isOpenModalEditUser: false,
             })
             await this.getAllUserFromReact();
-            // if (res && res.errCode === 0) {
-            // } else {
-            //     alert(res.errMessage)
-            // }
         }
         catch (e) {
             console.log(e);
