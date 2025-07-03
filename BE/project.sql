@@ -1,6 +1,7 @@
 USE project;
 SHOW TABLES;
-select * from allcode;
+select * from allcode where gender;
+
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.key, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R1','Admin', 'Quản trị viên' ); 
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.key, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R2','Doctor', 'Bác sĩ' ); 
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.key, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R3','Patient', 'Bệnh nhân' ); 

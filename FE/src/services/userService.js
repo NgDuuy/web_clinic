@@ -18,4 +18,7 @@ const deleteUser = (userId) => {
     console.log('Check data from userService in function deleteUser', userId);
     return axios.delete('/api/delete-user', { data: { id: userId } });
 }
-export { handleLoginApi, getAllUsers, createNewUser, editUserInfo, deleteUser };
+const getAllCodeService = (inputType) => {
+    return axios.get(`/api/allcode?type=${inputType}`)
+}
+export { handleLoginApi, getAllUsers, createNewUser, editUserInfo, deleteUser, getAllCodeService };

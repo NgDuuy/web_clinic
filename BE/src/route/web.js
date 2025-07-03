@@ -20,7 +20,7 @@ let introController = (app) => {
     router.put('/api/edit-user-info', userController.handleEditUserInfo)
     router.delete('/api/delete-user', userController.handleDeleteUser)
 
-    router.get('/allcode', userController.getAllcode)
+    router.get('/api/allcode', userController.getAllcode)
     return app.use('/', router);
 }
 module.exports = introController
