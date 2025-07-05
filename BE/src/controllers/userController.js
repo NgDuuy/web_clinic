@@ -57,8 +57,13 @@ let handleDeleteUser = async (req, res) => {
 let getAllcode = async (req, res) => {
     try {
         console.log("In getAllcode1: ", req.query)
+        // setTimeout(async () => {
+        //     let data = await userService.getAllcodeService(req.query.type);
+        //     return res.status(200).json(data);
+        // }, 3000)
         let data = await userService.getAllcodeService(req.query.type);
         return res.status(200).json(data);
+
     } catch (e) {
         console.log('Get all code error', e)
         return res.status(200).json({

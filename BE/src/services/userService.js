@@ -208,9 +208,7 @@ let getAllcodeService = (typeInput) => {
     return new Promise(async (resolve, reject) => {
         console.log('in GetAllcodeService', typeInput)
         try {
-            console.log('In try')
             if (!typeInput) {
-                console.log('in If', typeInput)
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing required parameters'
