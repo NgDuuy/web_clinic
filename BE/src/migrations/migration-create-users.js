@@ -35,7 +35,7 @@ module.exports = {
         allowNull: true
       },
       gender: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
         allowNull: true
       },
       roleId: {

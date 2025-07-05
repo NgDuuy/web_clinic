@@ -73,6 +73,8 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case actionTypes.CREATE_USER_SUCCESS:
+
         default:
             return state;
     }

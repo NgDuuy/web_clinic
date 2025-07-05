@@ -1,5 +1,6 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService } from '../../services/userService';
+import { getAllCodeService, createNewUserService } from '../../services/userService';
+import { create } from 'lodash';
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
 // })
@@ -86,4 +87,30 @@ export const fetchRoleSuccess = (roleData) => ({
 })
 export const fetchRoleFailed = () => ({
     type: actionTypes.FETCH_ROLE_FAILED
+})
+
+
+export const createNewUser = (userData) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await createNewUserService(userData);
+            console.log("In create new User <- admin Action: ", res)
+            if (res && res.data.errCode === 0) {
+                dispatch(createUserSuccess())
+            }
+            else {
+                dispatch(createUserFailed());
+            }
+        } catch (e) {
+            console.log(e)
+            dispatch(createUserFailed())
+        }
+    }
+}
+export const createUserSuccess = (userData) => ({
+    type: actionTypes.CREATE_USER_SUCCESS,
+    data: userData
+})
+export const createUserFailed = () => ({
+    type: actionTypes.CREATE_USER_FAILED,
 })

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { createNewUser } from '../../services/userService';
+import { createNewUserService } from '../../services/userService';
 import { emitter } from '../../utils/emitter';
 class ModalUser extends Component {
     constructor(props) {
@@ -66,7 +66,7 @@ class ModalUser extends Component {
     handleAddNewUser = () => {
         let isValid = this.checkValidateInput();
         if (isValid === true) {
-            this.props.createNewUser(this.state);
+            this.props.createNewUserService(this.state);
             console.log('Data modal', this.state)
         }
 

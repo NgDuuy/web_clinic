@@ -1,3 +1,5 @@
+import { faSave } from "@fortawesome/free-solid-svg-icons";
+
 const actionTypes = Object.freeze({
     //app
     APP_START_UP_COMPLETE: 'APP_START_UP_COMPLETE',
@@ -21,8 +23,10 @@ const actionTypes = Object.freeze({
 
     FETCH_ROLE_START: 'FETCH_ROLE_START',
     FETCH_ROLE_SUCCESS: 'FETCH_ROLE_SUCCESS',
-    FETCH_ROLE_FAILED: 'FETCH_ROLE_FAILED'
+    FETCH_ROLE_FAILED: 'FETCH_ROLE_FAILED',
 
+    CREATE_USER_SUCCESS: 'CREATE_USER_SUCCESS',
+    CREATE_USER_FAILED: 'CREATE_USER_FAILED'
 })
 
 export default actionTypes;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { getAllUsers, createNewUser, editUserInfo, deleteUser } from '../../services/userService';
+import { getAllUsers, createNewUserService, editUserInfo, deleteUser } from '../../services/userService';
 import ModalUser from './ModalUser'
 import ModalEditUser from './ModalEditUser';
 import { emitter } from '../../utils/emitter';
@@ -51,9 +51,9 @@ class UserManage extends Component {
             isOpenModalEditUser: !this.state.isOpenModalEditUser
         })
     }
-    createNewUser = async (data) => {
+    createNewUserService = async (data) => {
         try {
-            let response = await createNewUser(data);
+            let response = await createNewUserService(data);
             if (response && response.data.errCode !== 0) {
                 alert(response.data.errMessage)
             } else {
@@ -111,7 +111,7 @@ class UserManage extends Component {
                     isOpen={this.state.isOpenModalUser}
                     toggleUserModal={this.toggleUserModal}
                     test={'ads'}
-                    createNewUser={this.createNewUser}
+                    createNewUserService={this.createNewUserService}
                 />
                 {this.state.isOpenModalEditUser &&
                     <ModalEditUser
