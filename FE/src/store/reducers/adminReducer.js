@@ -1,14 +1,12 @@
-import { faL } from '@fortawesome/free-solid-svg-icons';
 import actionTypes from '../actions/actionTypes';
-import { act } from 'react';
-
 const initialState = {
     isLoadingGender: false,
     isLoadingPosition: false,
     isLoadingRole: false,
     gender: [],
     role: [],
-    position: []
+    position: [],
+    users: []
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -73,8 +71,16 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
-        case actionTypes.CREATE_USER_SUCCESS:
-
+        case actionTypes.FETCH_ALL_USER_SUCCESS:
+            state.users = action.users;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_USER_FAILED:
+            state.users = [];
+            return {
+                ...state
+            }
         default:
             return state;
     }

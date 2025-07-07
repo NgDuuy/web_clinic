@@ -148,7 +148,7 @@ let hashUserPassword = (password) => {
 let updateUserInfo = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data) {
+            if (!data.id || !data.roleId || !data.positionId || !data.gender) {
                 resolve({
                     errCode: 2,
                     errMessage: "Missing required parameter"
@@ -161,6 +161,11 @@ let updateUserInfo = (data) => {
             if (user) {
                 user.firstName = data.firstName;
                 user.lastName = data.lastName;
+                user.address = data.address;
+                user.roleId = data.roleId;
+                user.positionId = data.positionId;
+                user.gender = data.gender;
+                user.phoneNumber = data.phoneNumber;
                 user.address = data.address;
                 await user.save();
                 resolve({
