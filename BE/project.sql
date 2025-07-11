@@ -1,7 +1,9 @@
-USE project;
+USE project; 
 SHOW TABLES;
-select * from allcode where gender;
-SHOW VARIABLES LIKE 'max_allowed_packet';
+SHOW variables LIKE 'max_allowed_packet';
+select * from users;
+select * from allcode;
+select * from sequelizemeta;
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.key, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R1','Admin', 'Quản trị viên' ); 
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.key, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R2','Doctor', 'Bác sĩ' ); 
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.key, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R3','Patient', 'Bệnh nhân' ); 

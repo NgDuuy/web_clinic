@@ -150,6 +150,10 @@ let updateUserInfo = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id || !data.roleId || !data.positionId || !data.gender) {
+                console.log("Id: ", data.id)
+                console.log("roleId: ", data.roleId)
+                console.log("positionId: ", data.positionId)
+                console.log("Gender: ", data.gender)
                 resolve({
                     errCode: 2,
                     errMessage: "Missing required parameter"

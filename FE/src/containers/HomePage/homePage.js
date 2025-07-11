@@ -13,7 +13,9 @@ import "slick-carousel/slick/slick.css"
 // import { SampleNextArrow, SamplePrevArrow } from './Section/CustomArrows'
 
 function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
+    const { className, style, onClick, currentSlide, slideCount } = props;
+    const isDisabled = currentSlide >= slideCount - 4;
+    if (isDisabled) return null;
     return (
         <div
             className={className}
@@ -32,7 +34,8 @@ function SampleNextArrow(props) {
                 position: "absolute",     // thêm position tuyệt đối
                 right: "-20px",           // đẩy ra ngoài bên phải
                 top: "50%",               // căn giữa theo chiều dọc
-                transform: "translateY(-50%)" // căn giữa chính xác
+                transform: "translateY(-50%)", // căn giữa chính xác
+                cursor: "pointer"
             }}
             onClick={onClick}
         >
@@ -41,7 +44,9 @@ function SampleNextArrow(props) {
     )
 }
 function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
+    const { className, style, onClick, currentSlide } = props;
+    const isDisabled = currentSlide === 0;
+    if (isDisabled) return null;
     return (
         <div
             className={className}
@@ -60,7 +65,8 @@ function SamplePrevArrow(props) {
                 position: "absolute",
                 left: "-20px",           // đẩy ra ngoài bên trái
                 top: "50%",
-                transform: "translateY(-50%)"
+                transform: "translateY(-50%)",
+                cursor: "pointer"
             }}
             onClick={onClick} >
             <i className="fas fa-chevron-left"></i>
@@ -72,7 +78,7 @@ class HomePage extends Component {
     render() {
         let settings = {
             dots: false,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 1,

@@ -1,8 +1,12 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, createNewUserService, getAllUsers, deleteUser, editUserInfo } from '../../services/userService';
+import {
+    getAllCodeService, createNewUserService,
+    getAllUsers, deleteUser, editUserInfo, getAllDoctorTop
+} from '../../services/userService';
 import { create } from 'lodash';
 import { toast } from 'react-toastify';
 import { dispatch } from '../../redux';
+import { type } from 'os';
 // export const fetchGenderStart = () => ({
 //     type: actionTypes.FETCH_GENDER_START
 // })
@@ -60,8 +64,6 @@ export const fetchPositionSuccess = (positionData) => ({
 export const fetchPositionFailed = () => ({
     type: actionTypes.FETCH_POSITION_FAILED
 })
-
-
 export const fetchRoleStart = () => {
     return async (dispatch, getState) => {
         try {
@@ -90,8 +92,6 @@ export const fetchRoleSuccess = (roleData) => ({
 export const fetchRoleFailed = () => ({
     type: actionTypes.FETCH_ROLE_FAILED
 })
-
-
 export const createNewUser = (userData) => {
     return async (dispatch, getState) => {
         try {
@@ -201,3 +201,29 @@ export const fetchAllUserSuccess = (data) => ({
 export const fetchAllUserFailed = () => ({
     type: actionTypes.FETCH_ALL_USER_FAILED
 })
+export const fetchAllDoctorTop = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllDoctorTop('10');
+            let data = res.data;
+            if (data && data.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS,
+                    dataDoctor: data.data
+                })
+            }
+            else {
+                dispatch({
+                    type: actionTypes.FETCH_TOP_DOCTOR_FAILED
+                })
+            }
+        }
+        catch (e) {
+            console.log('Fetch all doctor top error: ', e);
+            dispatch({
+                type: actionTypes.FETCH_TOP_DOCTOR_FAILED
+            })
+        }
+    }
+}
+// export const fetchAllDoctorTop

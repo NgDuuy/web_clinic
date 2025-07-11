@@ -1,29 +1,37 @@
-'use strict';
+'user strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Allcode', {
+        await queryInterface.createTable('markdown', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            keyMap: {
-                type: Sequelize.STRING,
-                allowNull: false
+            contentHTML: {
+                allowNull: false,
+                type: Sequelize.TEXT('long'),
             },
-            type: {
-                type: Sequelize.STRING,
-                allowNull: false
+            contentMarkdown: {
+                allowNull: false,
+                type: Sequelize.TEXT('long'),
             },
-            valueEn: {
-                type: Sequelize.STRING,
-                allowNull: false
+            description: {
+                allowNull: true,
+                type: Sequelize.TEXT('long')
             },
-            valueVi: {
-                type: Sequelize.STRING,
-                allowNull: false
+            doctorId: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
+            specialtyId: {
+                allowNull: true,
+                type: Sequelize.INTEGER
+            },
+            clinicId: {
+                allowNull: true,
+                type: Sequelize.INTEGER
             },
             createdAt: {
                 allowNull: false,
@@ -37,7 +45,8 @@ module.exports = {
             }
         });
     },
+
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Allcode');
+        await queryInterface.dropTable('markdown');
     }
 };

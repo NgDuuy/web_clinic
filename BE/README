@@ -56,3 +56,6 @@ action thì được chia nhiều loại có thể dùng
 cách update database với sequenlize: 
 - thêm file migration mới
 -> xem lệnh trong migration-update-blob-user -> lệnh chạy npx sequelize-cli db:migrate
+
+
+Dùng markdown để nhúng bài viết

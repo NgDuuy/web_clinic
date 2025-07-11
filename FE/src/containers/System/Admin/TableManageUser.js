@@ -5,6 +5,21 @@ import { FormattedMessage } from 'react-intl';
 import { LANGUAGE } from '../../../utils/constant';
 import * as actions from '../../../store/actions'
 import './TableManageUser.scss'
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+// import style manually
+import 'react-markdown-editor-lite/lib/index.css';
+
+// Register plugins if required
+// MdEditor.use(YOUR_PLUGINS_HERE);
+
+// Initialize a markdown parser
+const mdParser = new MarkdownIt(/* Markdown-it options */);
+
+// Finish!
+function handleEditorChange({ html, text }) {
+    console.log('handleEditorChange', html, text);
+}
 class TableManageUser extends Component {
     constructor(props) {
         super(props);
@@ -34,34 +49,37 @@ class TableManageUser extends Component {
         let listUsers = this.props.listUsers
         console.log('listUser: ', this.props.listUsers)
         return (
-            <div className=''>
-                <table className='users-table'>
-                    <tbody>
-                        <tr>
-                            <th>Email</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Address</th>
-                            <th>Actions</th>
-                        </tr>
-                        {listUsers && listUsers.length > 0
-                            && listUsers.map((item, index) => {
-                                return (
-                                    <tr>
-                                        <td>{item.email}</td>
-                                        <td>{item.firstName}</td>
-                                        <td>{item.lastName}</td>
-                                        <td>{item.address}</td>
-                                        <td>
-                                            <button className='btn-edit' onClick={(e) => this.handleEditUser(item)}> <i className='fas fa-pencil-alt'></i></button>
-                                            <button className='btn-delete' onClick={(e) => this.handleDeleteUser(item)}><i className='fas fa-trash'></i></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                    </tbody>
-                </table>
-            </div>
+            <React.Fragment>
+                <div className=''>
+                    <table className='users-table'>
+                        <tbody>
+                            <tr>
+                                <th>Email</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                            </tr>
+                            {listUsers && listUsers.length > 0
+                                && listUsers.map((item, index) => {
+                                    return (
+                                        <tr>
+                                            <td>{item.email}</td>
+                                            <td>{item.firstName}</td>
+                                            <td>{item.lastName}</td>
+                                            <td>{item.address}</td>
+                                            <td>
+                                                <button className='btn-edit' onClick={(e) => this.handleEditUser(item)}> <i className='fas fa-pencil-alt'></i></button>
+                                                <button className='btn-delete' onClick={(e) => this.handleDeleteUser(item)}><i className='fas fa-trash'></i></button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                        </tbody>
+                    </table>
+                </div>
+                <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+            </React.Fragment>
         )
     }
 
