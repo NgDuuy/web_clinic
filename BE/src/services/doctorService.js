@@ -1,6 +1,6 @@
 const { raw } = require("body-parser");
 const db = require("../models");
-const { Model } = require("sequelize");
+const { Model, where } = require("sequelize");
 
 let getDoctorTopService = (limitInput) => {
     return new Promise(async (resolve, reject) => {
@@ -31,6 +31,107 @@ let getDoctorTopService = (limitInput) => {
         }
     })
 }
+let getAllDoctorService = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let doctors = await db.Users.findAll({
+                where: { roleId: 'R2' },
+                attributes: {
+                    exclude: ['password', 'image']
+                }
+            })
+            if (doctors) {
+                resolve({
+                    errCode: 0,
+                    data: doctors
+                });
+            } else {
+                reject(doctors)
+            }
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
+let saveInforDoctorService = (inputData) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log(inputData.doctorId, inputData.contentHTML, inputData.contentMarkdown)
+            if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown) {
+                resolve({
+                    errCode: -1,
+                    errMessage: "Missing parameter"
+                })
+                return
+            } else {
+                await db.Markdown.create({
+                    contentHTML: inputData.contentHTML,
+                    contentMarkdown: inputData.contentMarkdown,
+                    description: inputData.description,
+                    doctorId: inputData.doctorId,
+                    specialtyId: inputData.specialtyId,
+                    clinicId: inputData.clinicId
+                })
+            }
+            resolve({
+                errCode: 0,
+                errMessage: "Save infor doctor success!"
+            })
+
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
+let getDetailDoctorByIdService = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputId) {
+                console.log('Error in if getDetailDosctorByIdService: ')
+                resolve({
+                    errCode: -1,
+                    errMessage: "Missing parameter"
+                })
+            }
+            else {
+                let data = await db.Users.findOne({
+                    where: { id: inputId },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                    include: [
+                        {
+                            model: db.Markdown,
+                            attributes: ['description', 'contentHTML', 'contentMarkdown']
+                        },
+                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] }
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                if (!data) {
+                    data = {}
+                }
+                if (data && data.image) {
+                    data.image = new Buffer(data.image, 'base64').toString('binary')
+                }
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        }
+        catch (e) {
+            console.log("In getDetailDoctorByIdService catch")
+            reject(e)
+        }
+    })
+}
 module.exports = {
-    getDoctorTopService: getDoctorTopService
+    getDoctorTopService: getDoctorTopService,
+    getAllDoctorService: getAllDoctorService,
+    saveInforDoctorService: saveInforDoctorService,
+    getDetailDoctorByIdService: getDetailDoctorByIdService
 }
