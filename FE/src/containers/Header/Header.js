@@ -27,7 +27,6 @@ class Header extends Component {
             else if (role === USER_ROLE.DOCTOR) {
                 menu = doctorMenu;
             }
-            console.log("This.props.userInfo.roleId", role)
         }
         this.setState({
             menuApp: menu

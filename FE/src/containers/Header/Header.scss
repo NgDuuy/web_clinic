@@ -9,6 +9,15 @@
     height: 40px;
     position: relative;
 
+    .header-tabs-container {
+        height: 100%;
+        width: fit-content;
+
+        .menu {
+            width: 100% !important;
+        }
+    }
+
     .btn-logout {
         color: $common-text-color;
         line-height: 40px;

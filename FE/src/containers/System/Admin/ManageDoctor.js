@@ -9,6 +9,8 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
+import { getDetailInforService } from '../../../services/userService';
+import { faSlash } from '@fortawesome/free-solid-svg-icons';
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -26,7 +28,8 @@ class ManageDoctor extends Component {
             contentMarkdown: '',
             contentHTML: '',
             description: '',
-            listDoctor: []
+            listDoctor: [],
+            hasOldData: false
         }
     }
     componentDidMount() {
@@ -70,8 +73,30 @@ class ManageDoctor extends Component {
         })
         console.log('handleEditorChange', html, text);
     }
-    handleChange = selectedOption => {
+    handleChange = async (selectedOption) => {
         this.setState({ selectedOption });
+        console.log(selectedOption)
+        let res = await getDetailInforService(selectedOption.value);
+        console.log("handleChange", res)
+        if (res.data && res.data.errCode === 0 && res.data.data.Markdown) {
+            let markdown = res.data.data.Markdown;
+            console.log("Markdown: ", markdown)
+            this.setState({
+                contentHTML: markdown.contentHTML,
+                contentMarkdown: markdown.contentMarkdown,
+                description: markdown.description,
+                hasOldData: true
+            })
+        }
+        else {
+            this.setState({
+                contentHTML: "",
+                contentMarkdown: "",
+                description: "",
+                hasOldData: false
+            })
+        }
+
     };
     handleSaveContentMarkdown = () => {
         console.log("doctor id: ", this.state.selectedOption.value)

@@ -232,7 +232,6 @@ export const fetchAllDoctor = () => {
         try {
             let res = await getAllDoctor();
             let data = res.data;
-            console.log("Data in fetch All doctor:", data.data)
             if (data && data.errCode === 0) {
                 dispatch({
                     dataDoctors: data.data,
@@ -282,4 +281,34 @@ export const saveDetailDoctor = (data) => {
         }
     }
 }
+
+
+
+
+export const fetchAllCodeScheduleHours = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllCodeService("TIME");
+            let data = res.data;
+            if (data && data.errCode === 0) {
+                dispatch({
+                    dataTime: data.data,
+                    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_DOCTOR_SUCCESS
+                })
+            }
+            else {
+                dispatch({
+                    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_DOCTOR_FAILED
+                })
+            }
+        }
+        catch (e) {
+            console.log('Fetch all schedule hours doctor error: ', e)
+            dispatch({
+                type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_DOCTOR_FAILED
+            })
+        }
+    }
+}
+
 // export const fetchAllDoctorTop

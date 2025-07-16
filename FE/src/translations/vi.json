@@ -37,7 +37,7 @@
             "schedule": "Quản lý lịch khám bệnh"
         },
         "doctor": {
-            "manage-schedule": "Quản lý kế hoạch khám bệnh"
+            "manage-schedule": "Quản lý lịch khám bệnh"
         }
     },
     "manage-user": {
@@ -58,5 +58,11 @@
     "home-page": {
         "outStandingDoctor": "Bác sỹ nổi bật tuần qua",
         "more-info": "Xem thêm"
+    },
+    "manage-schedule": {
+        "title": "Quản lý kế hoạch khám bệnh của bác sỹ",
+        "choose-doctor": "Chọn bác sỹ",
+        "choose-date": "Chọn ngày",
+        "save": "Lưu thông tin"
     }
 }

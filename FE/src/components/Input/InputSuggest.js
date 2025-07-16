@@ -63,7 +63,7 @@ class InputSuggestion extends React.Component {
         this.props.onSelected(suggestion);
         return suggestion.displayName;
     }
-    
+
     renderSuggestion = suggestion => {
         return (
             <div className="suggest-item">
@@ -79,7 +79,7 @@ class InputSuggestion extends React.Component {
     };
 
     sortSuggestions(suggestions, value) {
-        var results =  _.sortBy(suggestions, (element) => {
+        var results = _.sortBy(suggestions, (element) => {
             return element.displayName
         })
         return results;
