@@ -1,6 +1,4 @@
-import { stat } from 'fs';
 import actionTypes from '../actions/actionTypes';
-import { act } from 'react';
 const initialState = {
     isLoadingGender: false,
     isLoadingPosition: false,
@@ -11,7 +9,8 @@ const initialState = {
     users: [],
     topDoctor: [],
     allDoctors: [],
-    allScheduleTime: []
+    allScheduleTime: [],
+    allRequiredDoctorInfor: {}
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -113,6 +112,16 @@ const adminReducer = (state = initialState, action) => {
             }
         case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_DOCTOR_FAILED:
             state.allScheduleTime = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS:
+            state.allRequiredDoctorInfor = action.data;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED:
+            state.allRequiredDoctorInfor = [];
             return {
                 ...state
             }

@@ -5,7 +5,7 @@ select * from users;
 select * from allcode;
 select * from sequelizemeta;
 select * from markdown;
-select * from markdown;
+select * from schedules; 
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.keyMap, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R1','Admin', 'Quản trị viên' ); 	
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.keyMap, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R2','Doctor', 'Bác sĩ' ); 	
 INSERT INTO ALLCODE (ALLCODE.type,ALLCODE.keyMap, ALLCODE.valueEn, ALLCODE.valueVi) values ('ROLE','R3','Patient', 'Bệnh nhân' ); 	

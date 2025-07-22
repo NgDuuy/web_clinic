@@ -2,7 +2,7 @@ import actionTypes from './actionTypes';
 import {
     getAllCodeService, createNewUserService,
     getAllUsers, deleteUser, editUserInfo, getAllDoctorTop,
-    getAllDoctor, saveDetailDoctorSevice
+    getAllDoctor, saveDetailDoctorSevice, getDoctorPriceService
 } from '../../services/userService';
 import { create } from 'lodash';
 import { toast } from 'react-toastify';
@@ -283,8 +283,6 @@ export const saveDetailDoctor = (data) => {
 }
 
 
-
-
 export const fetchAllCodeScheduleHours = () => {
     return async (dispatch, getState) => {
         try {
@@ -310,5 +308,40 @@ export const fetchAllCodeScheduleHours = () => {
         }
     }
 }
-
+export const getRequiredDoctorInforStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({
+                type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_START
+            })
+            let resPrice = await getAllCodeService("PRICE");
+            let resPayment = await getAllCodeService("PAYMENT");
+            let resProvince = await getAllCodeService("PROVINCE")
+            if (resPrice && resPrice.data.errCode === 0 &&
+                resPayment && resPayment.data.errCode === 0 &&
+                resProvince && resProvince.data.errCode === 0
+            ) {
+                let data = {
+                    resPrice: resPrice.data.data,
+                    resPayment: resPayment.data.data,
+                    resProvince: resProvince.data.data
+                }
+                dispatch(fetchAllRequiredSuccess(data));
+            }
+            else {
+                dispatch(fetchAllRequiredFailed());
+            }
+        } catch (e) {
+            dispatch(fetchAllRequiredFailed());
+            console.log("fetchAllRequiredFailed error: ", e);
+        }
+    }
+}
+export const fetchAllRequiredSuccess = (allRequiredData) => ({
+    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS,
+    data: allRequiredData
+})
+export const fetchAllRequiredFailed = () => ({
+    type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED
+})
 // export const fetchAllDoctorTop

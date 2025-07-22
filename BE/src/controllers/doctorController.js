@@ -76,9 +76,45 @@ let getDetailDoctorById = async (req, res) => {
         })
     }
 }
+let postBulkCreateSchedule = async (req, res) => {
+    try {
+        let data = await doctorService.postBulkCreateScheduleService(req.body);
+        if (data && data.errCode === 0) {
+            return res.status(200).json(data);
+        }
+        else {
+            return res.status(200).json(data)
+        }
+    } catch (e) {
+        console.log("Post bulk create schedule error1: ", e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+let getScheduleByDate = async (req, res) => {
+    try {
+        let data = await doctorService.getScheduleByDateSevice(req.query.doctorId, req.query.date);
+        if (data && data.errCode === 0) {
+            return res.status(200).json(data);
+        }
+        else {
+            return res.status(200).json(data)
+        }
+    } catch (e) {
+        console.log("Post bulk create schedule error1: ", e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
 module.exports = {
     getDoctorTop: getDoctorTop,
     getAllDoctor: getAllDoctor,
     postInforDoctor: postInforDoctor,
-    getDetailDoctorById: getDetailDoctorById
+    getDetailDoctorById: getDetailDoctorById,
+    postBulkCreateSchedule: postBulkCreateSchedule,
+    getScheduleByDate: getScheduleByDate
 }

@@ -5,12 +5,11 @@ import "./ManageSchedule.scss";
 import Select from 'react-select';
 import * as actions from '../../../store/actions'
 import { LANGUAGE, dateFormat } from '../../../utils/constant';
-import { getDetailInforService } from '../../../services/userService';
+import { getDetailInforService, postBulkCreateSchedule } from '../../../services/userService';
 import DatePicker from '../../../components/Input/DatePicker';
-import moment, { lang } from 'moment';
-import { range } from 'lodash';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
+import moment from 'moment';
 class ManageSchedule extends Component {
     constructor(props) {
         super(props)
@@ -93,8 +92,10 @@ class ManageSchedule extends Component {
             })
         }
     }
-    handleSaveSchedule = () => {
+    handleSaveSchedule = async () => {
+        const { isLoggedIn, language } = this.props
         let { rangeTime, selectedDoctor, currentDate } = this.state;
+        console.log("Range time: ", rangeTime)
         let result = [];
         if (selectedDoctor && _.isEmpty(selectedDoctor)) {
             toast.error("Invalid doctor!")
@@ -104,7 +105,8 @@ class ManageSchedule extends Component {
             toast.error("Invalid date!");
             return;
         }
-        let formatedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER)
+        // let formatedDate = moment(currentDate).unix()
+        let formatedDate = new Date(currentDate).getTime()
         if (rangeTime && rangeTime.length > 0) {
             let selectedTime = rangeTime.filter(item => item.isSelected === true)
             if (selectedTime && selectedTime.length > 0) {
@@ -112,7 +114,7 @@ class ManageSchedule extends Component {
                     let Object = {};
                     Object.doctorId = selectedDoctor.value;
                     Object.date = formatedDate;
-                    Object.time = item.keyMap;
+                    Object.timeType = item.keyMap;
                     result.push(Object)
                 })
             }
@@ -121,12 +123,20 @@ class ManageSchedule extends Component {
                 return;
             }
         }
-
-        console.log("Check result", result);
+        console.log("Check result: ", result)
+        let post = await postBulkCreateSchedule(result);
+        if (post.data.errCode === 0) {
+            toast.success(post.data.message)
+        }
+        if (post.data.errCode === -1) {
+            toast.error(post.data.errMessage)
+        }
+        console.log("Check result", post);
     }
     render() {
         const { selectedDoctor, rangeTime } = this.state;
         const { isLoggedIn, language } = this.props;
+        let yesterday = new Date(new Date().setDate(new Date().getDate() - 1))
         return (
             <div className="manage-schedule-container">
                 <div className='manage-schedule-title'>
@@ -148,7 +158,7 @@ class ManageSchedule extends Component {
                                 onChange={this.handleOnChangeDatePicker}
                                 className="form-control"
                                 value={this.state.currentDate}
-                                minDate={new Date()}
+                                minDate={yesterday}
                             />
                         </div>
                         <div className='col-12 pick-hour-container'>

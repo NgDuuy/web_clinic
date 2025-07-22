@@ -20,12 +20,16 @@ let introController = (app) => {
     router.post('/api/create-new-user', userController.handleCreateNewUser)
     router.put('/api/edit-user-info', userController.handleEditUserInfo)
     router.delete('/api/delete-user', userController.handleDeleteUser)
-
     router.get('/api/allcode', userController.getAllcode)
+
+
+
     router.get('/api/top-doctor-home', doctorController.getDoctorTop)
     router.get('/api/get-all-doctor', doctorController.getAllDoctor)
     router.post('/api/save-infor-doctor', doctorController.postInforDoctor)
     router.get('/api/get-detail-doctor-by-id', doctorController.getDetailDoctorById)
+    router.post('/api/bulk-create-schedule', doctorController.postBulkCreateSchedule)
+    router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
     return app.use('/', router);
 }
 module.exports = introController

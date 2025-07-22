@@ -21,7 +21,8 @@ export const CRUD_ACTIONS = {
 };
 
 export const dateFormat = {
-    SEND_TO_SERVER: 'DD/MM/YYYY'
+    // SEND_TO_SERVER: 'DD/MM/YYYY'
+    SEND_TO_SERVER: 'YYYY/MM/DD'
 };
 
 export const YesNoObj = {
