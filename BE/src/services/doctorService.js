@@ -2,7 +2,7 @@ const { raw } = require("body-parser");
 const db = require("../models");
 const { Model, where } = require("sequelize");
 const moment = require('moment');
-const { reject } = require("lodash");
+const { reject, includes } = require("lodash");
 require('dotenv').config()
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let getDoctorTopService = (limitInput) => {
@@ -77,11 +77,12 @@ let saveInforDoctorService = (inputData) => {
                         contentHTML: inputData.contentHTML,
                         contentMarkdown: inputData.contentMarkdown,
                         description: inputData.description,
+                        doctorId: inputData.doctorId
                     })
                 }
                 else if (inputData.action === 'EDIT') {
                     let doctorMarkdown = await db.Markdown.findOne({
-                        doctorId: inputData.doctorId,
+                        where: { doctorId: inputData.doctorId },
                         raw: false
                     })
                     if (doctorMarkdown) {
@@ -155,7 +156,18 @@ let getDetailDoctorByIdService = (inputId) => {
                             model: db.Markdown,
                             attributes: ['description', 'contentHTML', 'contentMarkdown']
                         },
-                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] }
+                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                        {
+                            model: db.doctor_Infor,
+                            attributes: {
+                                exclude: ['id', 'doctorId']
+                            },
+                            include: [
+                                { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] }
+                            ]
+                        },
                     ],
                     raw: false,
                     nest: true
@@ -261,11 +273,48 @@ let getScheduleByDateSevice = (doctorId, date) => {
         }
     })
 }
+let getExtraDoctorByIdService = (doctorId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId) {
+                resolve({
+                    errCode: -1,
+                    errMessage: "Missing required parameter"
+                })
+            }
+            else {
+                let data = await db.doctor_Infor.findOne({
+                    where: { doctorId: doctorId },
+                    attributes: {
+                        exclude: ['id', 'doctorId']
+                    },
+                    include: [
+                        { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] }
+                    ],
+                    raw: false,
+                    rest: true
+                })
+                if (!data) {
+                    data = {}
+                }
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     getDoctorTopService: getDoctorTopService,
     getAllDoctorService: getAllDoctorService,
     saveInforDoctorService: saveInforDoctorService,
     getDetailDoctorByIdService: getDetailDoctorByIdService,
     postBulkCreateScheduleService: postBulkCreateScheduleService,
-    getScheduleByDateSevice
+    getScheduleByDateSevice, getExtraDoctorByIdService
 }

@@ -53,6 +53,9 @@ action thì được chia nhiều loại có thể dùng
 định nghĩ từ khóa trong hàm appTypes -> định nghĩ hàm hàm trong appAction -> chạy sang reducer để map các thông tin 
 -> fire event
 
+dùng react number format để format lại giá cả
+
+
 cách update database với sequenlize: 
 - thêm file migration mới
 -> xem lệnh trong migration-update-blob-user -> lệnh chạy npx sequelize-cli db:migrate

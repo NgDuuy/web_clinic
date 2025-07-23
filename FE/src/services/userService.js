@@ -39,9 +39,13 @@ const postBulkCreateSchedule = (inputData) => {
 const getScheduleById = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`,)
 }
+const getExtraDoctorByIdService = (doctorId) => {
+    return axios.get(`/api/get-extra-infor-doctor-by-id?doctorId=${doctorId}`)
+}
 export {
     handleLoginApi, getAllUsers, createNewUserService,
     editUserInfo, deleteUser, getAllCodeService, getAllDoctorTop,
     getAllDoctor, saveDetailDoctorSevice,
     getDetailInforService, postBulkCreateSchedule, getScheduleById,
+    getExtraDoctorByIdService
 };

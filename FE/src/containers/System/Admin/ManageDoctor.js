@@ -126,16 +126,50 @@ class ManageDoctor extends Component {
             contentHTML: html
         })
     }
+
     handleChange = async (selectedOption) => {
         this.setState({ selectedOption });
+        let { listPayment, listPrice, listProvince } = this.state;
+        console.log("Check state:", this.state)
         let res = await getDetailInforService(selectedOption.value);
+        console.log("Check res:", res)
         if (res.data && res.data.errCode === 0 && res.data.data.Markdown) {
             let markdown = res.data.data.Markdown;
+            let addressClinic = '', nameClinic = '', note = '',
+                paymentId = '', priceId = '', provinceId = '';
+            let selectedPaymentId = '', selectedPriceId = '', selectedProvinceId = '';
+            if (res.data.data.doctor_Infor) {
+                addressClinic = res.data.data.doctor_Infor.addressClinic;
+                nameClinic = res.data.data.doctor_Infor.nameClinic;
+                note = res.data.data.doctor_Infor.note;
+                paymentId = res.data.data.doctor_Infor.paymentId;
+                priceId = res.data.data.doctor_Infor.priceId;
+                provinceId = res.data.data.doctor_Infor.provinceId;
+                console.log("Check check check", paymentId, priceId, provinceId)
+                console.log("Check check check2", listPayment, listPrice, listProvince)
+                selectedPaymentId = listPayment.find(item => {
+                    return item && item.value === paymentId
+                })
+                selectedPriceId = listPrice.find(item => {
+                    return item && item.value === priceId
+                })
+                selectedProvinceId = listProvince.find(item => {
+                    return item && item.value === provinceId
+                })
+                console.log("Check check check3", selectedPaymentId, selectedPriceId, selectedProvinceId)
+            }
+
             this.setState({
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
                 description: markdown.description,
-                hasOldData: true
+                hasOldData: true,
+                addressClinic: addressClinic,
+                nameClinic: nameClinic,
+                note: note,
+                selectedPrice: selectedPriceId,
+                selectedPayment: selectedPaymentId,
+                selectedProvince: selectedProvinceId
             })
         }
         else {
@@ -143,7 +177,13 @@ class ManageDoctor extends Component {
                 contentHTML: "",
                 contentMarkdown: "",
                 description: "",
-                hasOldData: false
+                hasOldData: false,
+                addressClinic: '',
+                nameClinic: '',
+                note: '',
+                selectedPrice: '',
+                selectedPayment: '',
+                selectedProvince: ''
             })
         }
 
