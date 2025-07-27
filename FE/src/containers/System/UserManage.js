@@ -28,9 +28,6 @@ class UserManage extends Component {
         if (data && data.errCode === 0) {
             this.setState({
                 arrayUser: data.users
-            }, () => {
-                console.log('Check state user ', this.state.arrayUser)
-                // Callback ở đây dùng callback để in ra mà hình thông tin và tránh việc bị bất đồng bộ
             })
         }
     }

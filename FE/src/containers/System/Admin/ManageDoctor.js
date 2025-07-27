@@ -9,9 +9,7 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
-import { getDetailInforService } from '../../../services/userService';
-import { faSlash } from '@fortawesome/free-solid-svg-icons';
-import { selectFilter } from 'react-bootstrap-table2-filter';
+import { getDetailInforService } from '../../../services/userService';;
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
@@ -130,7 +128,6 @@ class ManageDoctor extends Component {
     handleChange = async (selectedOption) => {
         this.setState({ selectedOption });
         let { listPayment, listPrice, listProvince } = this.state;
-        console.log("Check state:", this.state)
         let res = await getDetailInforService(selectedOption.value);
         console.log("Check res:", res)
         if (res.data && res.data.errCode === 0 && res.data.data.Markdown) {

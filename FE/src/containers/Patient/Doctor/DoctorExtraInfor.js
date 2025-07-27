@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import HomeHeader from '../../HomePage/HomeHeader';
 import './DoctorExtraInfor.scss'
 import { LANGUAGE } from '../../../utils';
-import { getScheduleById, getExtraDoctorByIdService } from '../../../services/userService';
+import { getExtraDoctorByIdService } from '../../../services/userService';
 import { FormattedMessage } from 'react-intl';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NumericFormat } from 'react-number-format';
@@ -48,7 +48,6 @@ class DoctorExtraInfor extends Component {
     render() {
         let { isShowDetailInfor, extraInfor } = this.state;
         let { language } = this.props;
-        console.log("Check state in doctor extraInfor: ", extraInfor.priceTypeData)
         return (
             <div className='doctor-extra-infor-container'>
                 <div className='content-up'>

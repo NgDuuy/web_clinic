@@ -59,7 +59,6 @@ let getAllDoctorService = () => {
 }
 let saveInforDoctorService = (inputData) => {
     return new Promise(async (resolve, reject) => {
-        console.log("Check input: ", inputData)
         try {
             if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown ||
                 !inputData.selectedPrice || !inputData.selectedPayment || !inputData.selectedProvince
@@ -96,7 +95,6 @@ let saveInforDoctorService = (inputData) => {
                 }
             }
             //upsert to doctor_info table
-            console.log("Check doctor Id: ", inputData.doctorId)
             let doctorInfor = await db.doctor_Infor.findOne({
                 where: {
                     doctorId: inputData.doctorId
@@ -196,7 +194,6 @@ let checkExist = async (inputData) => {
     }
     let conflicted = [];
     for (let item of inputData) {
-        console.log("Check check in check exist: ", item.timeType)
         let existing = await db.schedules.findOne({
             where: {
                 date: item.date,
@@ -215,7 +212,6 @@ let postBulkCreateScheduleService = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
             let conflictedSchedule = await checkExist(inputData);
-            console.log('conflictedSchedule: ', conflictedSchedule)
             if (conflictedSchedule.length === 0) {
                 resolve({
                     errCode: -1,
@@ -224,7 +220,6 @@ let postBulkCreateScheduleService = (inputData) => {
                 })
             }
             else {
-                console.log("In postBulkCreateScheduleService: ", conflictedSchedule);
                 if (conflictedSchedule && conflictedSchedule.length > 0) {
                     conflictedSchedule = conflictedSchedule.map(item => {
                         item.maxNumber = MAX_NUMBER_SCHEDULE
@@ -254,10 +249,12 @@ let getScheduleByDateSevice = (doctorId, date) => {
                 let data = await db.schedules.findAll({
                     where: { doctorId: doctorId, date: date },
                     include: [
-                        { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] }
+                        { model: db.Allcode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.Users, as: 'doctorData', attributes: ['firstName', 'lastName'] },
+
                     ],
                     raw: false,
-                    nest: true
+                    rest: true
                 })
                 if (!data) {
                     data = []
@@ -310,11 +307,65 @@ let getExtraDoctorByIdService = (doctorId) => {
         }
     })
 }
+let getProfileDoctorByIdService = (doctorId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId) {
+                resolve({
+                    errCode: -1,
+                    errMessage: "Missing required parameter"
+                })
+            }
+            else {
+                let data = await db.Users.findOne({
+                    where: { id: doctorId },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                    include: [
+                        {
+                            model: db.Markdown,
+                            attributes: ['description']
+                        },
+                        { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                        {
+                            model: db.doctor_Infor,
+                            attributes: {
+                                exclude: ['id', 'doctorId']
+                            },
+                            include: [
+                                { model: db.Allcode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+                                { model: db.Allcode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] }
+                            ]
+                        },
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                if (!data) {
+                    data = {}
+                }
+                if (data && data.image) {
+                    data.image = new Buffer(data.image, 'base64').toString('binary')
+                }
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     getDoctorTopService: getDoctorTopService,
     getAllDoctorService: getAllDoctorService,
     saveInforDoctorService: saveInforDoctorService,
     getDetailDoctorByIdService: getDetailDoctorByIdService,
     postBulkCreateScheduleService: postBulkCreateScheduleService,
-    getScheduleByDateSevice, getExtraDoctorByIdService
+    getScheduleByDateSevice, getExtraDoctorByIdService,
+    getProfileDoctorByIdService: getProfileDoctorByIdService
 }

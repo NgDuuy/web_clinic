@@ -38,7 +38,6 @@ let getAllDoctor = async (req, res) => {
 let postInforDoctor = async (req, res) => {
     try {
         let data = await doctorService.saveInforDoctorService(req.body);
-        console.log("post infor doctor: ", data);
         if (data && data.errCode === 0) {
             return res.status(200).json(data);
         }
@@ -95,6 +94,7 @@ let postBulkCreateSchedule = async (req, res) => {
 }
 let getScheduleByDate = async (req, res) => {
     try {
+        console.log("Check check req.query.doctorId,req.query.date: ", req.query.doctorId, req.query.date)
         let data = await doctorService.getScheduleByDateSevice(req.query.doctorId, req.query.date);
         if (data && data.errCode === 0) {
             return res.status(200).json(data);
@@ -128,6 +128,24 @@ let getExtraDoctorById = async (req, res) => {
         })
     }
 }
+let getProfileDoctorById = async (req, res) => {
+    try {
+        let data = await doctorService.getProfileDoctorByIdService(req.query.doctorId);
+        if (data && data.errCode === 0) {
+            return res.status(200).json(data);
+        }
+        else {
+            return res.status(200).json(data)
+        }
+    }
+    catch (e) {
+        console.log("getProfileDoctorById error1: ", e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
 module.exports = {
     getDoctorTop: getDoctorTop,
     getAllDoctor: getAllDoctor,
@@ -135,5 +153,6 @@ module.exports = {
     getDetailDoctorById: getDetailDoctorById,
     postBulkCreateSchedule: postBulkCreateSchedule,
     getScheduleByDate: getScheduleByDate,
-    getExtraDoctorById: getExtraDoctorById
+    getExtraDoctorById: getExtraDoctorById,
+    getProfileDoctorById
 }

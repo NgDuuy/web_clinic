@@ -67,7 +67,6 @@ class ModalUser extends Component {
         let isValid = this.checkValidateInput();
         if (isValid === true) {
             this.props.createNewUserService(this.state);
-            console.log('Data modal', this.state)
         }
 
     }

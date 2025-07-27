@@ -23,7 +23,6 @@ class OutstandingDoctor extends Component {
         this.props.loadTopDoctor();
     }
     handleViewDetailDoctor = (data) => {
-        console.log("Data in handleViewDetailDoctor: ", data)
         this.props.history.push(`/detail-doctor/${data.id}`)
     }
     render() {

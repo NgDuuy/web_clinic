@@ -78,6 +78,20 @@
             "detail": "See details ",
             "payment": "The patient can pay the cost in the form of cash or credit: ",
             "hide-price": "Hide price"
+        },
+        "booking-modal": {
+            "title": "Appointment information",
+            "name": "Full Name",
+            "phoneNumber": "Phone Number",
+            "email": "Email",
+            "address": "Adderss",
+            "reason": "Reason:",
+            "dayOfBirth": "Day of birth",
+            "gender": "Gender",
+            "confirm": "Confirm",
+            "cancel": "Cancel",
+            "freeBooking": "Free booking",
+            "price": "Price: "
         }
     },
     "admin": {

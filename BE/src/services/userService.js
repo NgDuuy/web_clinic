@@ -5,13 +5,11 @@ import { where } from 'sequelize';
 import { raw } from 'body-parser';
 const salt = bcrypt.genSaltSync(10);
 let handleUserLogin = (email, password) => {
-    console.log('in handleUserLogin')
     return new Promise(async (resolve, reject) => {
         try {
             let userData = {};
             let isExist = await checkEmail(email);
             if (isExist) {
-                console.log('in check isExist')
                 let user = await db.Users.findOne({
                     where: { email: email },
                     attributes: ['email', 'roleId', 'password', 'firstName', 'lastName'],
@@ -48,7 +46,6 @@ let handleUserLogin = (email, password) => {
 let checkEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("in function check email")
             let user = await db.Users.findOne({
                 where: { email: userEmail }
             })
@@ -67,7 +64,6 @@ let checkEmail = (userEmail) => {
 let getAllUsers = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("In function getAllUsers");
             let users = '';
             if (userId === "All") {
                 users = await db.Users.findAll({
@@ -150,10 +146,6 @@ let updateUserInfo = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id || !data.roleId || !data.positionId || !data.gender) {
-                console.log("Id: ", data.id)
-                console.log("roleId: ", data.roleId)
-                console.log("positionId: ", data.positionId)
-                console.log("Gender: ", data.gender)
                 resolve({
                     errCode: 2,
                     errMessage: "Missing required parameter"
@@ -220,7 +212,6 @@ let deleteUser = (userId) => {
 }
 let getAllcodeService = (typeInput) => {
     return new Promise(async (resolve, reject) => {
-        console.log('in GetAllcodeService', typeInput)
         try {
             if (!typeInput) {
                 resolve({

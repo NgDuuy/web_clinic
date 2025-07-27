@@ -35,7 +35,6 @@ class ModalEditUser extends Component {
                 roleId: '1'
             })
         }
-        console.log('didmount current user: ', this.props.currentUser)
     }
     toggle = () => {
         this.props.toggleModalEditUser();
@@ -63,7 +62,6 @@ class ModalEditUser extends Component {
         let isValid = this.checkValidateInput();
         if (isValid === true) {
             this.props.editUserInfo(this.state);
-            console.log('Data modal', this.state)
         }
 
     }

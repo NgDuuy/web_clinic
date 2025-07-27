@@ -63,5 +63,5 @@ cách update database với sequenlize:
 
 Dùng markdown để nhúng bài viết
 
-
+sử dụng node mailer để gửi thông tin xác nhận đến mail người dùng
 bulk create tạo nhiều bản ghi cùng lúc 
