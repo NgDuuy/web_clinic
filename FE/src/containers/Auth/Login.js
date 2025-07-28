@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 // import * as actions from "../store/actions";
 import * as actions from "../../store/actions";
-
-import userIcon from '../../../src/assets/images/user.svg';
-import passIcon from '../../../src/assets/images/pass.svg';
 import './Login.scss';
 import adminService from '../../services/adminService';
 import { handleLoginApi } from '../../services/userService';

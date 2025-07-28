@@ -38,7 +38,8 @@ parent -> child (ref)
 emitter(event): dùng emitter có thể giải quyết được 2 sự kiện truyền dữ liệu từ con lên cha và ngược lại 
 send message
 client->receive
-
+- cách định hướng luồng định nghĩa được link trong contant gắn path vào router ở app và sau đó app render 
+động giao diện trong component của route
 
 cấu hình react dux cho FE 
 redux-thunk redux-saga

@@ -48,7 +48,7 @@ let getBodyHTMLEmail = (dataSend) => {
         result =
             `
         <h3>Dear: ${dataSend.patientName} </h3>
-        <h4>Congratulations you have been booking appointment successfullyChúc mừng bạn vừa đặt lịch khám bệnh thành công.</<h4>
+        <h4>Congratulations you have been booking appointment successfully.</<h4>
         <p>Information with your appointment: </p>
         <div><b>Time: ${dataSend.time}</d></div>
         <div><b>Doctor: ${dataSend.doctorName}</d></div>

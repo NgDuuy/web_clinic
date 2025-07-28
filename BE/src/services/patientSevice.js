@@ -7,7 +7,7 @@ import { where } from 'sequelize';
 require('dotenv').config();
 const { reject } = require("lodash")
 let buildUrlEmail = (doctorId, token) => {
-    let result = `${process.env.URL_REACT}/verifyl/booking?token=${token}&doctorId=${doctorId}`
+    let result = `${process.env.URL_REACT}/verifyl-booking?token=${token}&doctorId=${doctorId}`
     return result
 }
 let postBookAppointmentService = async (data) => {
