@@ -1,0 +1,94 @@
+.detail-specialty-container {
+    .detail-specialty-body {
+        padding: 20px 100px;
+        background: #eee;
+        border-radius: 3px;
+
+        .decription-specialty {
+            // border-bottom: 1px solid gray;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 20px;
+            padding: 10px 56px;
+            background-color: white !important;
+
+
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .detail-infor-doctor {
+            padding: 10px 56px;
+            background-color: white !important;
+        }
+
+        .search-sp-doctor {
+            select {
+                height: 30px;
+                padding: 5px 8px;
+                margin-top: 10px;
+                border: none;
+                outline: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        }
+
+        .each-doctor {
+            display: flex;
+            width: 100%;
+            min-height: 300px;
+            margin: 15px 0;
+            background-color: #fff;
+            box-shadow: 0 1px 6px #20212447;
+            border-radius: 8px;
+            padding: 10px;
+
+            .dt-content-left {
+                width: 50%;
+                border-right: 1px solid #ddd;
+            }
+
+            .dt-content-right {
+                display: flex;
+                flex-direction: column;
+                width: 50%;
+                padding: 10px;
+
+                .doctor-schedule {
+                    .doctor-schedule-container {
+                        border-right: unset !important;
+                    }
+                }
+
+                .doctor-extra-infor {
+                    border-top: 1px solid #ddd;
+                    margin-top: 10px;
+                    padding-top: 10px;
+
+                    .doctor-extra-infor-container {
+                        padding-left: 0 !important;
+
+                    }
+                }
+
+                .intro-doctor {
+                    .content-right {
+                        .content-doctor {
+                            padding: 5px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+}

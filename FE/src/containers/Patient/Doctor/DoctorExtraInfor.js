@@ -19,11 +19,12 @@ class DoctorExtraInfor extends Component {
 
     async componentDidMount() {
         if (this.props.doctorIdFromParennt) {
-            let res = await getExtraDoctorByIdService(this.props.doctorIdFromParennt);
-            if (res && res.data && res.data.errCode === 0) {
+            let res = await getExtraDoctorByIdService(this.props.doctorIdFromParennt)
+            let data = res.data
+            if (data && data.errCode === 0) {
                 this.setState({
-                    extraInfor: res.data.data
-                });
+                    extraInfor: data.data
+                })
             }
         }
     }
@@ -81,11 +82,6 @@ class DoctorExtraInfor extends Component {
                         </div>
                     ) : (
                         <div>
-                            <div>
-                                <div>
-                                    <FormattedMessage id='patient.extra-infor-doctor.price' />
-                                </div>
-                            </div>
                             <div className='title-price'><FormattedMessage id='patient.extra-infor-doctor.price' /> </div>
                             <div className='detail-infor'>
                                 <div className='price'>

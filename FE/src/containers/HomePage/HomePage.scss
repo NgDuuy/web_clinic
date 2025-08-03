@@ -69,14 +69,28 @@
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center center;
-                cursor: pointer;
+                cursor: pointersection-specialty;
 
                 &.section-specialty {
-                    background: url('../../assets/specialty/100851may-cong-huong-tu-vietfile.png');
+                    // background: url('../../assets/specialty/100851may-cong-huong-tu-vietfile.png');
+                    text-align: center;
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    object-fit: contain;
                 }
 
                 &.section-medical-facility {
-                    background: url('../../assets/medicalfacility/083122lo-go-viet-duc.jpg');
+                    // background: url('../../assets/medicalfacility/083122lo-go-viet-duc.jpg');
+                    text-align: center;
+                    // width: 150px;
+                    // height: 150px;
+                    // border-radius: 50%;
+                    object-fit: contain;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                    cursor: pointer;
                 }
 
                 &.section-outstanding-doctor {
@@ -142,6 +156,19 @@
         display: flex;
         justify-content: center;
         margin-bottom: 10px;
+    }
+
+    .section-customize {
+        padding: 5px;
+    }
+}
+
+.section-specialty {
+    .outer-background {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+        cursor: pointer;
     }
 
     .section-customize {

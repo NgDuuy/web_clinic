@@ -1,8 +1,9 @@
+import emailService from './emailService'
 const { raw } = require("body-parser");
 const db = require("../models");
 const { Model, where } = require("sequelize");
 const moment = require('moment');
-const { reject, includes } = require("lodash");
+const { reject, includes, castArray } = require("lodash");
 require('dotenv').config()
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 let getDoctorTopService = (limitInput) => {
@@ -57,16 +58,34 @@ let getAllDoctorService = () => {
         }
     })
 }
+let checkRequiredFields = (inputData) => {
+    let array = ['doctorId', 'contentHTML', 'contentMarkdown',
+        'selectedPrice', 'selectedPayment', 'selectedProvince', 'nameClinic',
+        'addressClinic', 'note', 'specialtyId']
+    let isValid = true;
+    let element = '';
+    for (let i = 0; i < array.length; i++) {
+        if (!inputData[array[i]]) {
+            isValid = false;
+            element = array[i];
+            break;
+        }
+    }
+    return {
+        isValid: isValid,
+        element: element
+    }
+}
 let saveInforDoctorService = (inputData) => {
+    console.log("Check inputdata: ", inputData)
     return new Promise(async (resolve, reject) => {
         try {
-            if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown ||
-                !inputData.selectedPrice || !inputData.selectedPayment || !inputData.selectedProvince
-                || !inputData.nameClinic || !inputData.addressClinic || !inputData.note
-            ) {
+            let checkObject = checkRequiredFields(inputData);
+
+            if (checkObject.isValid === false) {
                 resolve({
                     errCode: -1,
-                    errMessage: "Missing parameter"
+                    errMessage: `Missing parameter: ${checkObject.element}`
                 })
                 return
             } else {
@@ -102,16 +121,19 @@ let saveInforDoctorService = (inputData) => {
                 raw: false
             })
             if (doctorInfor) {
+                console.log("In update: ")
                 doctorInfor.priceId = inputData.selectedPrice,
                     doctorInfor.provinceId = inputData.selectedProvince,
                     doctorInfor.paymentId = inputData.selectedPayment,
                     doctorInfor.nameClinic = inputData.nameClinic,
                     doctorInfor.addressClinic = inputData.addressClinic,
                     doctorInfor.note = inputData.note,
-                    await doctorInfor.save()
-
+                    doctorInfor.specialtyId = inputData.specialtyId,
+                    doctorInfor.clinicId = inputData.clinicId
+                await doctorInfor.save()
             } else {
                 //create
+                console.log("In create: ")
                 await db.doctor_Infor.create({
                     doctorId: inputData.doctorId,
                     priceId: inputData.selectedPrice,
@@ -120,6 +142,8 @@ let saveInforDoctorService = (inputData) => {
                     nameClinic: inputData.nameClinic,
                     addressClinic: inputData.addressClinic,
                     note: inputData.note,
+                    specialtyId: inputData.specialtyId,
+                    clinicId: inputData.clinicId
                 })
             }
             resolve({
@@ -129,6 +153,7 @@ let saveInforDoctorService = (inputData) => {
 
         }
         catch (e) {
+            console.log("check e: ", e)
             reject(e);
         }
     })
@@ -137,7 +162,7 @@ let getDetailDoctorByIdService = (inputId) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!inputId) {
-                console.log('Error in if getDetailDosctorByIdService: ')
+                console.log('Error in if getDetailDosctorByIdService1: ')
                 resolve({
                     errCode: -1,
                     errMessage: "Missing parameter"
@@ -360,6 +385,93 @@ let getProfileDoctorByIdService = (doctorId) => {
         }
     })
 }
+let getGetListPatientForDoctorService = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: "Missing required parameter"
+                })
+            }
+            else {
+                let data = await db.bookings.findAll({
+                    where: {
+                        doctorId: doctorId,
+                        statusId: 'S2',
+                        date: date
+                    },
+                    include: [
+                        {
+                            model: db.Users,
+                            as: 'patientData',
+                            attributes: ['email', 'firstName', 'address', 'gender'],
+                            include: [
+                                {
+                                    model: db.Allcode,
+                                    as: 'genderData',
+                                    attributes: ['valueEn', 'valueVi']
+                                }
+                            ]
+                        },
+                        {
+                            model: db.Allcode,
+                            as: 'timeTypeDataPatient',
+                            attributes: ['valueEn', 'valueVi']
+                        }
+                    ],
+                    raw: false,
+                    nest: true
+                });
+
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+}
+let sendRemedyService = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.email || !data.doctorId || !data.patientId || !data.timeType) {
+                resolve({
+                    errCode: 1,
+                    errMessage: "Missing required parameter"
+                })
+            } else {
+                //update patient Status
+                let appointment = await db.bookings.findOne({
+                    where: {
+                        doctorId: data.doctorId,
+                        patientId: data.patientId,
+                        statusID: "S2",
+                        timeType: data.timeType
+                    },
+                    raw: false
+                })
+                if (appointment) {
+                    appointment.statusId = "S3"
+                    await appointment.save()
+                }
+
+                await emailService.sendAttachment(data)
+                resolve({
+                    errCode: 0,
+                    errMessage: "Send remedy success"
+                })
+            }
+
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+}
 module.exports = {
     getDoctorTopService: getDoctorTopService,
     getAllDoctorService: getAllDoctorService,
@@ -367,5 +479,6 @@ module.exports = {
     getDetailDoctorByIdService: getDetailDoctorByIdService,
     postBulkCreateScheduleService: postBulkCreateScheduleService,
     getScheduleByDateSevice, getExtraDoctorByIdService,
-    getProfileDoctorByIdService: getProfileDoctorByIdService
+    getProfileDoctorByIdService: getProfileDoctorByIdService, getGetListPatientForDoctorService,
+    sendRemedyService
 }

@@ -6,7 +6,7 @@
     "fullstack",
     "nodejs",
     "express",
-    "hoidanIT"
+    "webLinic"
   ],
   "license": "ISC",
   "author": "DucDuy",
@@ -14,7 +14,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/server.js"
+    "start": "nodemon --exec babel-node src/server.js",
+    "build-src": "babel src -d build --copy-files",
+    "build": "node build/server.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -30,7 +32,8 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.4",
+    "@babel/cli": "^7.28.0",
+    "@babel/core": "^7.28.0",
     "@babel/node": "^7.27.1",
     "@babel/preset-env": "^7.27.2",
     "nodemon": "^3.1.10",

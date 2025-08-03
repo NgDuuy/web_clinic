@@ -8,6 +8,7 @@ import { getProfileDoctorById } from '../../../services/userService';
 import { NumericFormat } from 'react-number-format';
 import moment from 'moment';
 import localization from 'moment/locale/vi';
+import { Link } from 'react-router-dom';
 
 class ProfileDoctor extends Component {
     constructor(props) {
@@ -63,7 +64,9 @@ class ProfileDoctor extends Component {
     }
     render() {
 
-        let { language, isShowDescriptionDoctor, dataScheduleTimeModal } = this.props
+        let { language, isShowDescriptionDoctor, dataScheduleTimeModal,
+            doctorId, isShowLinkDetail, isShowPrice } = this.props
+
         let { dataProfile } = this.state;
         let nameEn = "", nameVi = "";
         if (dataProfile && dataProfile.positionData) {
@@ -103,39 +106,47 @@ class ProfileDoctor extends Component {
                     </div>
 
                 </div>
-                <div className='price'>
-                    <FormattedMessage id='patient.booking-modal.price' />
-                    {dataProfile && dataProfile.doctor_Infor && language === LANGUAGE.VI
-                        ?
+                {isShowLinkDetail === true &&
+                    <div className='view-detail-doctor'>
+                        <Link to={`/detail-doctor/${doctorId}`}>Xem thêm</Link>
+                    </div>
+                }
+                {isShowPrice === true &&
+                    <div className='price'>
+                        <FormattedMessage id='patient.booking-modal.price' />
+                        {dataProfile && dataProfile.doctor_Infor && dataProfile.doctor_Infor.priceTypeData &&
+                            dataProfile.doctor_Infor.priceTypeData.valueVi && language === LANGUAGE.VI
+                            ?
 
-                        <NumericFormat
-                            className='currentcy'
-                            value={
-                                language === LANGUAGE.VI
-                                    ? Number(dataProfile.doctor_Infor.priceTypeData.valueVi)
-                                    : ""
-                            }
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            suffix={language === LANGUAGE.VI ? 'VND' : '$'}
-                        /> : ''}
-                    {dataProfile && dataProfile.doctor_Infor && language === LANGUAGE.EN
-                        ?
-                        <NumericFormat
-                            className='currentcy'
-                            value={
-                                language === LANGUAGE.EN
-                                    ? Number(dataProfile.doctor_Infor.priceTypeData.valueEn)
-                                    : ""
-                            }
-                            displayType={'text'}
-                            thousandSeparator={true}
-                            suffix={language === LANGUAGE.EN ? '$' : 'VND'}
-                        />
+                            <NumericFormat
+                                className='currentcy'
+                                value={
+                                    language === LANGUAGE.VI
+                                        ? Number(dataProfile.doctor_Infor.priceTypeData.valueVi)
+                                        : ""
+                                }
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                suffix={language === LANGUAGE.VI ? 'VND' : '$'}
+                            /> : ''}
+                        {dataProfile && dataProfile.doctor_Infor && dataProfile.doctor_Infor.priceTypeData && language === LANGUAGE.EN
+                            ?
+                            <NumericFormat
+                                className='currentcy'
+                                value={
+                                    language === LANGUAGE.EN
+                                        ? Number(dataProfile.doctor_Infor.priceTypeData.valueEn)
+                                        : ""
+                                }
+                                displayType={'text'}
+                                thousandSeparator={true}
+                                suffix={language === LANGUAGE.EN ? '$' : 'VND'}
+                            />
 
-                        : ''}
+                            : ''}
 
-                </div>
+                    </div>
+                }
             </div>
         );
     }

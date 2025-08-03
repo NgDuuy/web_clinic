@@ -37,7 +37,8 @@
             "schedule": "Manage doctor's schedule"
         },
         "doctor": {
-            "manage-schedule": "Manage doctor's schedule"
+            "manage-schedule": "Manage doctor's schedule",
+            "manage-patient": "Manage doctor's patient"
         }
     },
     "manage-user": {
@@ -106,7 +107,11 @@
             "province": "Choose province",
             "clinic": "Clinic name",
             "address": "Adderss",
-            "note": "Note"
+            "note": "Note",
+            "speciality": "Choose specialty",
+            "choose-speciality": "Chọn speciality",
+            "select-clinic": "Choose clinic",
+            "choose-clinic": "Choose clinic"
         }
     }
 }

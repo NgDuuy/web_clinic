@@ -42,13 +42,14 @@ let postInforDoctor = async (req, res) => {
             return res.status(200).json(data);
         }
         else {
+            console.log("Post infor doctor error11: ");
             return res.status(200).json({
                 errCode: -1,
                 errMessage: 'Error from server...'
             })
         }
     } catch (e) {
-        console.log("Post infor doctor error: ", e);
+        console.log("Post infor doctor error2: ", e);
         return res.status(200).json({
             errCode: -1,
             errMessage: 'Error from server...'
@@ -146,6 +147,45 @@ let getProfileDoctorById = async (req, res) => {
         })
     }
 }
+let getGetListPatientForDoctor = async (req, res) => {
+    try {
+        let data = await doctorService.getGetListPatientForDoctorService(req.query.doctorId, req.query.date);
+        if (data && data.errCode === 0) {
+            return res.status(200).json(data);
+        }
+        else {
+            return res.status(200).json(data)
+        }
+    }
+    catch (e) {
+        console.log("getGetListPatientForDoctor error1: ", e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+let sendRemedy = async (req, res) => {
+    try {
+        let data = await doctorService.sendRemedyService(req.body);
+        if (data && data.errCode === 0) {
+            return res.status(200).json(data);
+        }
+        else {
+            console.log("sendRemedy error11: ");
+            return res.status(200).json({
+                errCode: -1,
+                errMessage: 'Error from server...'
+            })
+        }
+    } catch (e) {
+        console.log("sendRemedy error2: ", e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
 module.exports = {
     getDoctorTop: getDoctorTop,
     getAllDoctor: getAllDoctor,
@@ -154,5 +194,6 @@ module.exports = {
     postBulkCreateSchedule: postBulkCreateSchedule,
     getScheduleByDate: getScheduleByDate,
     getExtraDoctorById: getExtraDoctorById,
-    getProfileDoctorById
+    getProfileDoctorById, getGetListPatientForDoctor,
+    sendRemedy
 }

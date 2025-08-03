@@ -23,12 +23,12 @@ class OutstandingDoctor extends Component {
         this.props.loadTopDoctor();
     }
     handleViewDetailDoctor = (data) => {
+        console.log("Check history: ", this.props.history)
         this.props.history.push(`/detail-doctor/${data.id}`)
     }
     render() {
         let allDoctor = this.state.arrDoctor;
         let { language } = this.props
-        console.log('Check top doctor: ', allDoctor)
         return (
             <div className='section-share section-outstanding-doctor '>
                 <div className='section-container'>
@@ -56,7 +56,6 @@ class OutstandingDoctor extends Component {
                                                 </div>
                                                 <div className='position text-center'>
                                                     <div>{language === LANGUAGE.VI ? nameVi : nameEn}</div>
-                                                    <div>Tiêu hóa, bênh viêm gangan</div>
                                                 </div>
                                             </div>
                                         </div>

@@ -10,7 +10,9 @@ const initialState = {
     topDoctor: [],
     allDoctors: [],
     allScheduleTime: [],
-    allRequiredDoctorInfor: {}
+    allRequiredDoctorInfor: {},
+    allSpecialty: [],
+    allClinic: []
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -27,7 +29,6 @@ const adminReducer = (state = initialState, action) => {
             // let copyState1 = { ...state };
             state.gender = action.data;
             state.isLoadingGender = false;
-            console.log('fire fetch gender success', state)
             return {
                 ...state
             }
@@ -125,6 +126,26 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case actionTypes.FETCH_ALL_SPECIALTY_SUCCESS:
+            state.allSpecialty = action.dataAllSpecialty;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_SPECIALTY_FAILED:
+            state.allSpecialty = [];
+            return {
+                ...state
+            }
+        // case actionTypes.FETCH_ALL_CLINIC_SUCCESS:
+        //     state.allClinic = action.dataAllClinic;
+        //     return {
+        //         ...state
+        //     }
+        // case actionTypes.FETCH_ALL_CLINIC_FAILED:
+        //     state.allClinic = [];
+        //     return {
+        //         ...state
+        //     }
         default:
             return state;
     }

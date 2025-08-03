@@ -1,4 +1,4 @@
-import { lastIndexOf } from 'lodash';
+import { lastIndexOf, reject } from 'lodash';
 import nodemailer, { createTestAccount } from 'nodemailer';
 require('dotenv').config()
 
@@ -64,6 +64,69 @@ let getBodyHTMLEmail = (dataSend) => {
     }
     return result
 }
+let sendAttachment = async (dataSend) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("Check datasend: ", dataSend)
+            let transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false,
+                auth: {
+                    user: process.env.EMAIL_APP,
+                    pass: process.env.EMAIL_APP_PASSWORD,
+                },
+            });
+
+            // Gửi email
+            let info = await transporter.sendMail({
+                from: `"Booking Care" <${process.env.EMAIL_APP}>`,
+                to: dataSend.email,
+                subject: "Kết quả khám bệnh, hóa đơn và danh sách thuốc.",
+                html: getBodyHTMLEmailRemedy(dataSend),
+                attachments: [
+                    {
+                        filename: `Remedy-${dataSend.patientId}-${dataSend.patientName}-${new Date().getTime()}.png`,
+                        content: dataSend.imgBase64.split("base64")[1],
+                        encoding: 'base64'
+                    }
+                ]
+            });
+            console.log("Check infor send: ");
+            console.log(info)
+            resolve();
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+
+}
+let getBodyHTMLEmailRemedy = (dataSend) => {
+    let result = '';
+    if (dataSend.language === 'vi') {
+        result =
+            `
+        <h3>Xin chào:${dataSend.patientName}</h3>
+        <h4>Chúc mừng bạn vừa đặt lịch khám bệnh thành công.</<h4>
+        <p>Thông tin đơn thuốc/hóa đơn được gửi trong file đính kèm.</p>
+
+
+        <div>Xin chân thành cảm ơn.</div>
+        `
+    }
+    if (dataSend.language === 'en') {
+        result =
+            `
+        <h3>Dear: ${dataSend.patientName}</h3>
+        <h4>Congratulations you have been booking appointment successfully.</<h4>
+        <p>Information your medicine had send with file blow. </p>
+
+        <div>Thank a lot.</div>
+        `
+    }
+    return result
+}
 module.exports = {
-    sendSimpleEmail
+    sendSimpleEmail, sendAttachment
 }

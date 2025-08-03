@@ -104,7 +104,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    console.log("dispatch: ")
     return {
         changeLanguageAppRedux: (language) => dispatch(changeLanguage(language))
     };

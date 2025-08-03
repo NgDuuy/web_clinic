@@ -3,6 +3,8 @@ import homeController from '../controllers/homeController.js';
 import userController from '../controllers/userController.js'
 import doctorController from '../controllers/doctorController.js'
 import patientController from '../controllers/patientController.js'
+import specialtyController from '../controllers/specialtyController.js'
+import clinicController from '../controllers/clinicController.js'
 let router = express.Router();
 let introController = (app) => {
     router.get('/', homeController.getHomePage);
@@ -36,8 +38,19 @@ let introController = (app) => {
 
 
 
+    router.get('/api/get-list-patient-for-doctor', doctorController.getGetListPatientForDoctor)
+    router.post('/api/send-remedy', doctorController.sendRemedy)
+
     router.post('/api/patient-book-appointment', patientController.postBookAppointment)
     router.post('/api/verify-book-appointment', patientController.postVerifyBookAppointment)
+
+    router.post('/api/create-new-specialty', specialtyController.createNewSpecialty)
+    router.get('/api/all-specialty', specialtyController.getAllSpecialty)
+    router.get('/api/get-detail-specialty-by-id', specialtyController.getDetailSpecialtyById)
+
+    router.post('/api/create-new-clinic', clinicController.createNewClinic)
+    router.get('/api/all-clinic', clinicController.getAllClinic)
+    router.get('/api/get-detail-clinic-by-id', clinicController.getDetailClinicById)
     return app.use('/', router);
 }
 module.exports = introController

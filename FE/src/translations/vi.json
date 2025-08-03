@@ -37,7 +37,8 @@
             "schedule": "Quản lý lịch khám bệnh"
         },
         "doctor": {
-            "manage-schedule": "Quản lý lịch khám bệnh"
+            "manage-schedule": "Quản lý lịch khám bệnh",
+            "manage-patient": "Quản lý bệnh nhân"
         }
     },
     "manage-user": {
@@ -106,7 +107,11 @@
             "province": "Chọn tỉnh thành",
             "clinic": "Tên phòng khám",
             "address": "Địa chỉ phòng khám",
-            "note": "Ghi chú"
+            "note": "Ghi chú",
+            "speciality": "Chọn chuyên khoa",
+            "choose-speciality": "Chọn chuyên khoa",
+            "select-clinic": "Chọn phòng khám",
+            "choose-clinic": "Chọn phòng khám"
         }
     }
 }

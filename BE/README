@@ -66,3 +66,8 @@ Dùng markdown để nhúng bài viết
 
 sử dụng node mailer để gửi thông tin xác nhận đến mail người dùng
 bulk create tạo nhiều bản ghi cùng lúc 
+
+BE cần bổ sung thêm CRUD của quản lý phòng khám và quản lý chuyên khoa
+bug: 
+ở 
+/doctor/manage-patient quản lý bệnh nhân nếu chọn ngày trong quá khứ là web die

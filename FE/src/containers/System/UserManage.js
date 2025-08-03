@@ -140,7 +140,6 @@ class UserManage extends Component {
                             </tr>
 
                             {arrayUser && arrayUser.map((item, index) => {
-                                console.log('eric check map ', item, index)
                                 return (
                                     <tr>
                                         <td>{item.email}</td>

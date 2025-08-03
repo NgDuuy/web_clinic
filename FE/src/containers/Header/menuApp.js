@@ -32,7 +32,7 @@ export const adminMenu = [
         name: 'menu.admin.specialty',
         menus: [
             {
-                name: 'menu.admin.manage-specialty', link: '/system/manage-specialty '
+                name: 'menu.admin.manage-specialty', link: '/system/manage-specialty'
             }
         ]
     },
@@ -51,6 +51,9 @@ export const doctorMenu = [
         menus: [
             { //Quản lý kế hoạch khám bênh của bác sỹ
                 name: 'menu.doctor.manage-schedule', link: '/doctor/manage-schedule'
+            },
+            { //Quản lý bệnh nhân khám bệnh của bác sỹ
+                name: 'menu.doctor.manage-patient', link: '/doctor/manage-patient'
             },
         ]
     }

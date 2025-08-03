@@ -42,12 +42,10 @@ class TableManageUser extends Component {
         this.props.deleteUserRedux(user.id);
     }
     handleEditUser = (userData) => {
-        console.log('In handle edit user: ', userData);
         this.props.handleEditUserFromParent(userData)
     }
     render() {
         let listUsers = this.props.listUsers
-        console.log('listUser: ', this.props.listUsers)
         return (
             <React.Fragment>
                 <div className=''>

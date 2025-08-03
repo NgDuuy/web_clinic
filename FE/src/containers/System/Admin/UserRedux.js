@@ -60,7 +60,6 @@ class UserRedux extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.genderRedux !== this.props.genderRedux) {
             let arrGenders = this.props.genderRedux.data
-            console.log('arrGenders: ', arrGenders[0].keyMap);
             this.setState({
                 genderArr: this.props.genderRedux.data,
                 gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : ''
@@ -68,7 +67,6 @@ class UserRedux extends Component {
         }
         if (prevProps.positionRedux !== this.props.positionRedux) {
             let arrPositions = this.props.positionRedux.data
-            console.log('arrPositions: ', arrPositions[0].keyMap);
             this.setState({
                 positionArr: this.props.positionRedux.data,
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
@@ -76,7 +74,6 @@ class UserRedux extends Component {
         }
         if (prevProps.roleRedux !== this.props.roleRedux) {
             let arrRoles = this.props.roleRedux.data
-            console.log('arrRoles: ', arrRoles[0].keyMap);
             this.setState({
                 roleArr: this.props.roleRedux.data,
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : ''
@@ -107,7 +104,6 @@ class UserRedux extends Component {
         let file = data[0];
         if (file) {
             let base64 = await CommonUtils.getBase64(file);
-            console.log("Check base64 in handle on change image: ", base64)
             let objectUrl = URL.createObjectURL(file)
             this.setState({
                 previewImgURL: objectUrl,

@@ -45,7 +45,6 @@ class ManageSchedule extends Component {
                     return item
                 })
             }
-            console.log("Check data select: ", dataSelect)
             this.setState({
                 rangeTime: dataSelect
             })
@@ -95,7 +94,6 @@ class ManageSchedule extends Component {
     handleSaveSchedule = async () => {
         const { isLoggedIn, language } = this.props
         let { rangeTime, selectedDoctor, currentDate } = this.state;
-        console.log("Range time: ", rangeTime)
         let result = [];
         if (selectedDoctor && _.isEmpty(selectedDoctor)) {
             toast.error("Invalid doctor!")
@@ -123,7 +121,6 @@ class ManageSchedule extends Component {
                 return;
             }
         }
-        console.log("Check result: ", result)
         let post = await postBulkCreateSchedule(result);
         if (post.data.errCode === 0) {
             toast.success(post.data.message)
@@ -131,7 +128,6 @@ class ManageSchedule extends Component {
         if (post.data.errCode === -1) {
             toast.error(post.data.errMessage)
         }
-        console.log("Check result", post);
     }
     render() {
         const { selectedDoctor, rangeTime } = this.state;

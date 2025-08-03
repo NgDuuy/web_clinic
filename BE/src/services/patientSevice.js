@@ -13,9 +13,8 @@ let buildUrlEmail = (doctorId, token) => {
 let postBookAppointmentService = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("Check check data: ", data)
             if (!data.email || !data.fullName || !data.doctorId || !data.timeType ||
-                !data.date
+                !data.date || !data.selectedGender || !data.address
             ) {
                 resolve({
                     errCode: -1,
@@ -39,15 +38,15 @@ let postBookAppointmentService = async (data) => {
                         password: 123456,
                         firstName: data.fullName,
                         lastName: data.fullName,
-                        roleId: "R3"
+                        roleId: "R3",
+                        address: data.address,
+                        gender: data.selectedGender,
+                        phoneNumber: data.phoneNumber
                     },
                     raw: true
                 });
                 console.log("Check user: ", user)
                 if (user && user[0]) {
-                    console.log("Check data.doctorId: ", data.doctorId)
-                    console.log("Check date: ", data.date)
-                    console.log("Check data.timeType: ", data.timeType)
                     await db.bookings.findOrCreate({
                         where: { patientId: user[0].id },
                         defaults: {
@@ -56,11 +55,10 @@ let postBookAppointmentService = async (data) => {
                             patientId: user[0].id,
                             date: data.date,
                             timeType: data.timeType,
-                            token: token
+                            token: token,
                         }
                     })
                 }
-                console.log("Check check data user && created: ", user[0])
                 resolve({
                     errCode: 0,
                     errMessage: "Save user success"
